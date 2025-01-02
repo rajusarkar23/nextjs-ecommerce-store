@@ -44,8 +44,8 @@ export async function POST(request: NextRequest) {
   }
 
   await s3Client.send(new PutObjectCommand(uploadParams))
-  // const url = 
+  const url = `${process.env.CLOUDFLARE_CDN_URL}/${fileName}`
   files.push({fileName})
-  return NextResponse.json({success: true, message: "Upload success" });
+  return NextResponse.json({success: true, message: "Upload success", url: url });
 
 }
