@@ -4,9 +4,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useCallback, useState } from "react";
 import InputComp from "./InputComp";
-import ButtonComp from "./Button";
 import { Bold, ImagePlus, Italic, List } from "lucide-react";
-import { Button } from "@nextui-org/button";
 
 export default function ListProductComp() {
   const [content, setContent] = useState("");
@@ -100,7 +98,7 @@ export default function ListProductComp() {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/admin/list-product", {
+      const res = await fetch("/api/admin/product", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
