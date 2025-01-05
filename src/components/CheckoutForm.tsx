@@ -6,6 +6,7 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
+import { useParams } from "next/navigation";
 
 const CheckoutForm = ({ amount }: { amount: number }) => {
   const stripe = useStripe();
@@ -13,6 +14,8 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const id = useParams().id
 
   useEffect(() => {
     // sending a request to the payment intent route
@@ -43,22 +46,29 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       return;
     }
     // same above destructure example
-    const { error } = await stripe.confirmPayment({
+    const confirmPayment = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        return_url: `http://www.localhost:3000/checkout/success/${id}`,
       },
     });
+
+    // console.log(confirmPayment);
+    
+    
     // if error
-    if (error) {
-      // This point is only reached if there's an immediate error when
-      // confirming the payment. Show the error to your customer (for example, payment details incomplete)
-      setErrorMessage(error.message);
-    } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to `return_url`.
-    }
+    // if (error) {
+    //   // This point is only reached if there's an immediate error when
+    //   // confirming the payment. Show the error to your customer (for example, payment details incomplete)
+    //   setErrorMessage(error.message);
+    // } else {
+    //   // The payment UI automatically closes with a success animation.
+    //   // Your customer is redirected to `return_url`.
+    //   console.log("success 123 gooo");
+    //   window.alert("dc")
+      
+    // }
 
     setLoading(false);
   };
