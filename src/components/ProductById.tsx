@@ -1,7 +1,7 @@
 "use client";
 
 import { Spinner } from "@nextui-org/spinner";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface data {
@@ -72,7 +72,7 @@ export default function ProductByIdComp() {
   console.log(data);
 
   const id = useParams().id;
-  console.log(id);
+  const router = useRouter()
 
   const getPrpoductById = async () => {
     setError(false);
@@ -104,10 +104,15 @@ export default function ProductByIdComp() {
     getPrpoductById();
   }, []);
 
+  const goToCheckout = () => {
+    return router.push(`/checkout/${id}`)
+  }
+
   if (!data || loadig) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <Spinner color="default" />
+        <p className="text-gray-300 font-semibold ml-2">Loading...</p>
       </div>
     );
   }
@@ -123,7 +128,7 @@ export default function ProductByIdComp() {
             <p className="text-2xl font-bold">{data.title}</p>
             <p className="mt-8">{data.longDescription}</p>
             <div className="mt-8 space-x-4">
-              <button className="bg-black text-white px-6 py-2 text-xl font-semibold transition-all hover:scale-105">
+              <button onClick={goToCheckout} className="bg-black text-white px-6 py-2 text-xl font-semibold transition-all hover:scale-105">
                 Buy
               </button>
               <button className="bg-orange-600 text-white px-6 py-2 text-xl font-semibold transition-all hover:scale-105">

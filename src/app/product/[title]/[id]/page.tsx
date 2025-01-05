@@ -1,13 +1,11 @@
-import ProductByIdComp from '@/components/ProductById'
+import ProductByIdComp from "@/components/ProductById";
 
 const ProductById = () => {
   return (
     <div>
-
-        <ProductByIdComp />
-
+      <ProductByIdComp />
     </div>
-  )
-}
+  );
+};
 
-export default ProductById
+export default ProductById;
