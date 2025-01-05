@@ -41,6 +41,7 @@ const ProductSchema = new Schema({
   maxOperatingTemp: { type: String, required: true },
   launchDate: { type: String, required: true },
   supportedOs: { type: String, required: true },
+  imageUrl: { type: String, required: true },
 });
 
 export const Product =
