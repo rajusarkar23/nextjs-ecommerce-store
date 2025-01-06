@@ -4,11 +4,13 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { productId, paymentId } = await req.json();
+  console.log("paymentId:", paymentId);
+  
 
   await dbConnection()
 
   try {
-    const findIfOrderExistWithPaymentId = await Order.find({paymentId: paymentId})
+    const findIfOrderExistWithPaymentId = await Order.findOne({paymentId: paymentId})
     if (findIfOrderExistWithPaymentId) {
         console.log(true);
         console.log(findIfOrderExistWithPaymentId);

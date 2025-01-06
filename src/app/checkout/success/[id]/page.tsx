@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,6 +13,8 @@ const SuccessPage = () => {
   const [paymentStatusLoading, setPaymentStatusLoading] = useState(false);
   const [paymentStatusError, setPaymentStatusError] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [placingOrder, setPlacingOrder] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
   console.log(paymentSuccess);
 
   console.log(paymentId);
@@ -33,6 +36,7 @@ const SuccessPage = () => {
       if (response.success === true) {
         setPaymentSuccess(true);
         //send api call to create order
+        setPlacingOrder(true);
         try {
           const res = await fetch("/api/order", {
             method: "POST",
@@ -43,6 +47,13 @@ const SuccessPage = () => {
           });
 
           const response = await res.json();
+          if (response.success === true) {
+            setPlacingOrder(false);
+            setOrderPlaced(true);
+            console.log("order placed");
+
+            console.log("response:", response);
+          }
           console.log(response);
         } catch (error) {
           console.log(error);
@@ -72,26 +83,27 @@ const SuccessPage = () => {
         ) : (
           <p>Loading...</p>
         )}
-        {/* <h2 className="text-xl font-bold text-green-600">
-          Your payment was successful.
-        </h2>
-        <h3>
-          Payment id is:-
-          <span className="text-blue-600 font-semibold"> {paymentId}</span>
-        </h3> */}
       </div>
-      <div className="mt-10">
-        <h2 className="text-2xl font-bold text-orange-600">
-          Your order has been placed.
-        </h2>
-        <h2 className="text-2xl text-center font-bold text-orange-600">
-          {" "}
-          Thank you!!
-        </h2>
-      </div>
-      <div className="mt-12 text-blue-600 font-bold">Go to Orders</div>
+      {placingOrder ? (
+        <p className="text-xl font-bold text-orange-500">
+          Placing your order...
+        </p>
+      ) : orderPlaced ? (
+        <p className="text-xl font-bold text-green-500">
+          Order placed successfully!
+          <Link href={"/"} className="text-blue-500">
+            Go to orders.
+          </Link>
+        </p>
+      ) : (
+        <p className="text-xl font-bold text-orange-500">
+          Getting your payment status...
+        </p>
+      )}
     </div>
   );
 };
 
 export default SuccessPage;
+
+// pi_3QeETQSIUIZZDI9X1oBe4NDn
