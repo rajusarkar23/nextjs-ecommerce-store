@@ -7,7 +7,6 @@ export async function POST(req: Request) {
 
   try {
     const getPaymentDetails = await stripe.paymentIntents.retrieve(paymentId);
-    console.log(getPaymentDetails);
     
     if (getPaymentDetails.status === "succeeded") {
       return NextResponse.json({

@@ -45,8 +45,6 @@ export default function TestListComp() {
   } = useForm<inputs>();
 
   const onsubmut: SubmitHandler<inputs> = async (data) => {
-    console.log(data);
-    
     try {
       const res = await fetch("/api/admin/product", {
         method: "POST",
@@ -57,7 +55,6 @@ export default function TestListComp() {
       });
 
       const response = await res.json();
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -82,10 +79,9 @@ export default function TestListComp() {
       const resposne = await res.json();
       if (resposne.success === true) {
         const imageUrl = resposne.url;
-        
+
         setValue("imageUrl", imageUrl);
       }
-      console.log(resposne);
     } catch (error) {
       console.log(error);
     }
@@ -320,8 +316,13 @@ export default function TestListComp() {
         className="w-96"
         size="lg"
       />
-      <Input type="file" onChange={uploadImage}/>
-      <Input className="hidden" type="text" hidden={true} {...register("imageUrl")}/>
+      <Input type="file" onChange={uploadImage} />
+      <Input
+        className="hidden"
+        type="text"
+        hidden={true}
+        {...register("imageUrl")}
+      />
       <div>
         <input
           type="submit"

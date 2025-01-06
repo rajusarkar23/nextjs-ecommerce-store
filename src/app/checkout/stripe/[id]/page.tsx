@@ -48,8 +48,6 @@ const StripeCheckout = () => {
   }
 
   const priceToNumber = Number(data.price);
-  console.log(priceToNumber);
-
   return (
     <main className="flex justify-center items-center mt-20">
       <div className="w-[500px] p-2 text-white text-center border m-10 rounded-md bg-blue-600">

@@ -14,7 +14,6 @@ export default function CheckoutPageComp() {
   const id = useParams().id;
   const [quantityValue, setQuantityValue] = useState("1");
   const [data, setData] = useState<data>();
-  console.log(data);
   const router = useRouter();
 
   const fetchProduct = async () => {

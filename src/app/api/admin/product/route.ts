@@ -68,7 +68,6 @@ export async function POST(req: Request) {
       supportedOs,
       imageUrl,
     });
-    console.log(listProduct);
     return NextResponse.json({
       success: true,
       message: "Listed successfully.",
@@ -82,7 +81,6 @@ export async function GET(req: Request) {
   await dbConnection();
   try {
     const getproducts = await Product.find({});
-    console.log(getproducts);
     return NextResponse.json({ success: true, getproducts });
   } catch (error) {
     console.log(error);

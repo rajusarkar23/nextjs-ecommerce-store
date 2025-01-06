@@ -41,9 +41,6 @@ interface data {
 
 export default function HomepageProduct() {
   const [data, setData] = useState<data[]>([]);
-  console.log("ran");
-
-  console.log(data);
 
   const getProducts = async () => {
     try {

@@ -54,7 +54,6 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       },
     });
 
-    // console.log(confirmPayment);
     
     
     // if error

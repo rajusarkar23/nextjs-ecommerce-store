@@ -68,9 +68,6 @@ export default function ProductByIdComp() {
   const [loadig, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  console.log(Array.isArray(data));
-  console.log(data);
-
   const id = useParams().id;
   const router = useRouter()
 

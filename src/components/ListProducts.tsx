@@ -12,7 +12,6 @@ export default function ListProductComp() {
   const [price, setPrice] = useState("");
   const [discountPrice, setDiscountPrice] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  console.log(imageUrl);
   
   const handleTitleChange = (value: string) => {
     setTitle(value);
@@ -33,7 +32,6 @@ export default function ListProductComp() {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    console.log("formdata:", formData);
 
     try {
       const res = await fetch("/api/admin/upload-image", {
@@ -45,7 +43,6 @@ export default function ListProductComp() {
       if (resposne.success === true) {
         setImageUrl(resposne.url);
       }
-      console.log(resposne);
     } catch (error) {
       console.log(error);
     }
@@ -113,7 +110,6 @@ export default function ListProductComp() {
       });
 
       const resposne = await res.json();
-      console.log(resposne);
     } catch (error) {
       console.log(error);
     }

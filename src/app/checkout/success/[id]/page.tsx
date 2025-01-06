@@ -7,17 +7,12 @@ import { useEffect, useState } from "react";
 const SuccessPage = () => {
   const searchParams = useSearchParams();
   const productId = useParams().id;
-  console.log(productId);
-
   const paymentId = searchParams.get("payment_intent");
   const [paymentStatusLoading, setPaymentStatusLoading] = useState(false);
   const [paymentStatusError, setPaymentStatusError] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [placingOrder, setPlacingOrder] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
-  console.log(paymentSuccess);
-
-  console.log(paymentId);
 
   const getStatusFromStripe = async () => {
     setPaymentStatusLoading(true);
@@ -32,7 +27,6 @@ const SuccessPage = () => {
       });
 
       const response = await res.json();
-      console.log(response);
       if (response.success === true) {
         setPaymentSuccess(true);
         //send api call to create order
@@ -50,11 +44,7 @@ const SuccessPage = () => {
           if (response.success === true) {
             setPlacingOrder(false);
             setOrderPlaced(true);
-            console.log("order placed");
-
-            console.log("response:", response);
           }
-          console.log(response);
         } catch (error) {
           console.log(error);
         }
