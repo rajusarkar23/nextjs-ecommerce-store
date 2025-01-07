@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import ShowProductImage from "./ShowProductImage";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import Image from "next/image";
+import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
 import Link from "next/link";
+import Footer from "./Footer";
 
 interface data {
-  _id: string
+  _id: string;
   title: string;
   longDescription: string;
   price: string;
@@ -41,8 +41,10 @@ interface data {
 
 export default function HomepageProduct() {
   const [data, setData] = useState<data[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const getProducts = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/admin/product", {
         method: "GET",
@@ -50,7 +52,10 @@ export default function HomepageProduct() {
 
       const response = await res.json();
 
-      setData(response.getproducts);
+      if (response.success === true) {
+        setData(response.getproducts);
+        setLoading(false);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -58,22 +63,32 @@ export default function HomepageProduct() {
   useEffect(() => {
     getProducts();
   }, []);
+
+  if (!data || loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner color="default" />
+        <p className="text-gray-300 font-semibold ml-2">Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="space-y-4 flex flex-row mt-8">
         {data.map((item, index) => (
-          <Link href={`/product/${item.title}/${item._id}`}  key={index}>
-           <Card className="ml-2 w-96">
-            <CardHeader>
-              <img src={item.imageUrl} alt="image" />
-            </CardHeader>
-            <CardBody className="flex justify-center items-center">
-              <p>{item.title}</p>
-            </CardBody>
-          </Card>
+          <Link href={`/product/${item.title}/${item._id}`} key={index}>
+            <Card className="ml-2 w-96">
+              <CardHeader>
+                <img src={item.imageUrl} alt="image" />
+              </CardHeader>
+              <CardBody className="flex justify-center items-center">
+                <p>{item.title}</p>
+              </CardBody>
+            </Card>
           </Link>
-         
         ))}
+        
       </div>
     </div>
   );
