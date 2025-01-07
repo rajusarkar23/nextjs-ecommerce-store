@@ -11,6 +11,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.717.0",
     "@nextui-org/button": "^2.2.8",
+    "@nextui-org/navbar": "^2.2.8",
     "@nextui-org/react": "^2.6.10",
     "@nextui-org/slider": "^2.4.6",
     "@nextui-org/spinner": "^2.2.5",
