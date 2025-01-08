@@ -16,5 +16,21 @@ export async function getOTPSession() {
   //@ts-expect-error
   const userId = decode.userId;
 
-  return userId
+  return userId;
+}
+
+export async function checkUserSession() {
+  const cookie = (await cookies()).get("session")?.value;
+
+  if (!cookie) {
+    return NextResponse.json({
+      error: true,
+      message: "No session available, Plesae login again.",
+    });
+  }
+
+  const decode = jwt.verify(cookie, `${process.env.USER_JWT_SECRET}`);
+  //@ts-expect-error
+  const userId = decode.userId;
+  return userId;
 }

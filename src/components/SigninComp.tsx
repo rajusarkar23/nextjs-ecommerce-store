@@ -68,7 +68,7 @@ export default function SigninComp() {
   const [isVisible, setIsVisible] = useState(false);
   const [getResponse, setGetResponse] = useState(false);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ export default function SigninComp() {
 
     try {
       setGetResponse(true);
-      setError(false)
+      setError(false);
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -88,11 +88,12 @@ export default function SigninComp() {
       const response = await res.json();
       if (response.error === false) {
         setGetResponse(false);
-        router.push("/verified");
+        router.push("/cart");
+      } else {
+        setGetResponse(false);
+        setError(true);
+        setErrorMessage(response.message);
       }
-      setGetResponse(false)
-      setError(true)
-      setErrorMessage(response.message)
     } catch (error) {
       console.log(error);
     }
@@ -138,18 +139,18 @@ export default function SigninComp() {
           </button>
         }
       />
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-col">
         {getResponse ? (
           <Button isDisabled color="default" className="w-32">
             Wait...
-            <Spinner color="primary" size="sm"/>
+            <Spinner color="primary" size="sm" />
           </Button>
         ) : (
           <Button color="primary" type="submit" className="w-32">
             Signin
           </Button>
         )}
-         {error ? (<p>{errorMessage}</p>): (<p></p>)}
+        <div>{error ? <p className="font-bold text-red-500">{errorMessage}</p> : <p></p>}</div>
       </div>
       <div className="font-semibold text-orange-500">
         New?
