@@ -77,7 +77,7 @@ export default function SigninComp() {
     try {
       setGetResponse(true);
       setError(false)
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "applicatin/json",

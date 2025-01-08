@@ -68,7 +68,7 @@ export default function SignupComp() {
   const [isVisible, setIsVisible] = useState(false);
   const [getResponse, setGetResponse] = useState(false);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,7 +77,7 @@ export default function SignupComp() {
     try {
       setGetResponse(true);
       setError(false);
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "applicatin/json",
@@ -86,15 +86,16 @@ export default function SignupComp() {
       });
 
       const response = await res.json();
+      console.log(response);
 
       if (response.error === false) {
         setGetResponse(false);
         router.push("/verify");
+      } else {
+        setGetResponse(false);
+        setError(true);
+        setErrorMessage(response.message);
       }
-
-      setGetResponse(false);
-      setError(true);
-      setErrorMessage(response.message)
     } catch (error) {
       console.log(error);
     }
@@ -151,7 +152,7 @@ export default function SignupComp() {
             Signup
           </Button>
         )}
-        {error ? (<p>{errorMessage}</p>): (<p></p>)}
+        {error ? <p>{errorMessage}</p> : <p></p>}
       </div>
       <div className="font-semibold text-orange-500">
         Already have account?

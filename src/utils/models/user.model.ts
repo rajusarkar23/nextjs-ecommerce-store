@@ -2,10 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 const UserSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
@@ -14,8 +10,16 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    otp: {
+      type:String,
+      required: [true, "OTP undefined"]
+    },
+    verified: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );
 
-export const User = mongoose.models.Order || mongoose.model("User", UserSchema);
+export const User = mongoose.models.User || mongoose.model("User", UserSchema);
