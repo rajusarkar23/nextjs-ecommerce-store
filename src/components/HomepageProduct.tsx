@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ShowProductImage from "./ShowProductImage";
 import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
 import Link from "next/link";
-import Footer from "./Footer";
 
 interface data {
   _id: string;

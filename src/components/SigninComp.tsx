@@ -1,5 +1,5 @@
 "use client";
-import { Form, Input, Button, button, Spinner } from "@nextui-org/react";
+import { Form, Input, Button, Spinner } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

@@ -76,7 +76,7 @@ export default function CheckoutPageComp() {
           <div>
             <p className="text-xl font-semibold">
               Your quantity is
-              <span className="text-blue-600"> "{quantityValue}"</span>
+              <span className="text-blue-600"> `&quot`{quantityValue}`&quot`</span>
             </p>
           </div>
         </div>

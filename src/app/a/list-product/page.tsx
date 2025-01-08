@@ -1,5 +1,4 @@
 import React from "react";
-import ListProductComp from "@/components/ListProducts";
 import TestListComp from "@/components/TestListComp";
 
 const ListProduct = () => {

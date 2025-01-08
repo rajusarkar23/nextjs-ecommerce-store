@@ -17,6 +17,8 @@ export default function InputComp({
   onChange,
 }: inputValues) {
   const [fieldValue, setFieldValue] = useState("");
+  console.log(fieldValue);
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

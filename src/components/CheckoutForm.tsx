@@ -15,7 +15,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const id = useParams().id
+  const id = useParams().id;
 
   useEffect(() => {
     // sending a request to the payment intent route
@@ -46,7 +46,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       return;
     }
     // same above destructure example
-    const confirmPayment = await stripe.confirmPayment({
+    await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
@@ -54,8 +54,6 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       },
     });
 
-    
-    
     // if error
     // if (error) {
     //   // This point is only reached if there's an immediate error when
@@ -66,7 +64,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
     //   // Your customer is redirected to `return_url`.
     //   console.log("success 123 gooo");
     //   window.alert("dc")
-      
+
     // }
 
     setLoading(false);

@@ -14,6 +14,11 @@ const SuccessPage = () => {
   const [placingOrder, setPlacingOrder] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
 
+  console.log(paymentStatusLoading);
+  console.log(paymentStatusError);
+  
+  
+
   const getStatusFromStripe = async () => {
     setPaymentStatusLoading(true);
     setPaymentStatusError(false);

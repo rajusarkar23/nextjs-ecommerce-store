@@ -110,6 +110,8 @@ export default function ListProductComp() {
       });
 
       const resposne = await res.json();
+      console.log(resposne);
+      
     } catch (error) {
       console.log(error);
     }

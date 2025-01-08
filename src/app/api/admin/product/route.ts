@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
   await dbConnection();
   try {
-    const listProduct = await Product.create({
+    await Product.create({
       title,
       longDescription,
       price,
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: Request) {
+export async function GET() {
   await dbConnection();
   try {
     const getproducts = await Product.find({});
