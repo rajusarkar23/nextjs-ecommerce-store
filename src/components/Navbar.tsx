@@ -7,7 +7,7 @@ import {
   Input,
   Button,
 } from "@nextui-org/react";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -48,8 +48,8 @@ export const SearchIcon = ({
 };
 
 export default function NavbarComp() {
-
-  const [sessionAvailable, setSessionAvailable] = useState(false)
+  const [sessionAvailable, setSessionAvailable] = useState(false);
+  console.log(sessionAvailable);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -59,12 +59,17 @@ export default function NavbarComp() {
         });
         const response = await res.json();
         console.log(response);
+        if (response.error === false) {
+          setSessionAvailable(true);
+        } else {
+          setSessionAvailable(false);
+        }
       } catch (error) {
         console.log(error);
       }
     };
 
-    checkSession()
+    checkSession();
   }, []);
 
   return (
@@ -93,11 +98,17 @@ export default function NavbarComp() {
 
       <NavbarContent as="div" className="items-center" justify="end">
         <Link href={"/cart"}>
-          <ShoppingCart className="text-blue-500" />
+          <ShoppingCart className="text-blue-500 hover:scale-105 transition-all" />
         </Link>
-        <Button as={Link} color="primary" href="/signin" variant="flat">
-          Login
-        </Button>
+        {sessionAvailable ? (
+          <Link href="/profile">
+            <UserCircle className="text-blue-500 hover:scale-105 transition-all" />
+          </Link>
+        ) : (
+          <Button as={Link} color="primary" href="/signin" variant="flat">
+            Login
+          </Button>
+        )}
       </NavbarContent>
     </Navbar>
   );
