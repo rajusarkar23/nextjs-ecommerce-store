@@ -1,4 +1,10 @@
-import { Navbar, NavbarBrand, NavbarContent, Input } from "@nextui-org/react";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  Input,
+  Button,
+} from "@nextui-org/react";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
@@ -67,6 +73,9 @@ export default function NavbarComp() {
         <Link href={"/cart"}>
           <ShoppingCart className="text-blue-500" />
         </Link>
+        <Button as={Link} color="primary" href="/signin" variant="flat">
+          Login
+        </Button>
       </NavbarContent>
     </Navbar>
   );
