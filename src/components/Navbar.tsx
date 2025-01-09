@@ -60,6 +60,8 @@ export default function NavbarComp() {
         if (response.error === false) {
           setSessionAvailable(true);
         } else {
+          console.log(response);
+          
           setSessionAvailable(false);
         }
       } catch (error) {

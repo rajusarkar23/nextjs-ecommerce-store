@@ -2,9 +2,15 @@ import dbConnection from "@/utils/db/db";
 import { checkUserSession } from "@/utils/get-user-from-jwt";
 import { User } from "@/utils/models/user.model";
 import { NextResponse } from "next/server";
+import {ObjectId} from "mongodb"
 
 export async function GET() {
   const userId = await checkUserSession();
+
+  if (!ObjectId.isValid(userId)) {
+    return NextResponse.json({error: true, message: "Invalid id or session"})
+  }
+  
   if (!userId) {
     return NextResponse.json({
       error: true,
