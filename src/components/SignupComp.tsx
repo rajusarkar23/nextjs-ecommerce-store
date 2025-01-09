@@ -89,7 +89,6 @@ export default function SignupComp() {
       });
 
       const response = await res.json();
-      console.log(response);
 
       if (response.error === false) {
         setGetResponse(false);

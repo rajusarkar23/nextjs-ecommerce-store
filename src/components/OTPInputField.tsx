@@ -32,7 +32,6 @@ export default function OTPInputField() {
         setGetResponse(false);
         setErrorMessage(response.message);
       }
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

@@ -49,7 +49,6 @@ export const SearchIcon = ({
 
 export default function NavbarComp() {
   const [sessionAvailable, setSessionAvailable] = useState(false);
-  console.log(sessionAvailable);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -58,7 +57,6 @@ export default function NavbarComp() {
           method: "GET",
         });
         const response = await res.json();
-        console.log(response);
         if (response.error === false) {
           setSessionAvailable(true);
         } else {

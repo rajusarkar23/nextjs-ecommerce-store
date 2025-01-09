@@ -110,8 +110,6 @@ export default function ProductByIdComp() {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     // find product by id
     const existingProduct = cart.find((item: any) => item === id);
-    console.log("existingProduct", existingProduct);
-    console.log("current id", id);
     // if existing product id === para's id
     if (id === existingProduct) {
       setProductExistInLocalStorage(true);
