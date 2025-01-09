@@ -106,7 +106,7 @@ export default function NavbarComp() {
           </Link>
         ) : (
           <Button as={Link} color="primary" href="/signin" variant="flat">
-            Login
+            Signin
           </Button>
         )}
       </NavbarContent>

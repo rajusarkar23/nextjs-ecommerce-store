@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       { expiresIn: "30d" }
     );
     (await cookies()).set("session", jwtToken);
-    return NextResponse.json({ error: false, message: "Login success." });
+    return NextResponse.json({ error: false, message: "Signin success." });
   } catch (error) {
     console.log(error);
   }

@@ -1,7 +1,8 @@
 "use client";
 
+import { Button } from "@nextui-org/button";
 import { Spinner } from "@nextui-org/spinner";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface data {
@@ -34,6 +35,7 @@ interface data {
   launchDate: string;
   supportedOs: string;
   imageUrl: string;
+  _id: string;
 }
 
 const tagsObj = {
@@ -65,13 +67,15 @@ const tagsObj = {
 
 export default function ProductByIdComp() {
   const [data, setData] = useState<data>();
+  const productId = data?._id;
+
   const [loadig, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  console.log(error);
-  
+  const [productExistInLocalStorage, setProductExistInLocalStorage] =
+    useState(false);
 
   const id = useParams().id;
-  const router = useRouter()
+  const router = useRouter();
 
   const getPrpoductById = async () => {
     setError(false);
@@ -101,11 +105,35 @@ export default function ProductByIdComp() {
 
   useEffect(() => {
     getPrpoductById();
+  
+    //get the cart from local storage
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    // find product by id
+    const existingProduct = cart.find((item: any) => item === id);
+    console.log("existingProduct", existingProduct);
+    console.log("current id", id);
+    // if existing product id === para's id
+    if (id === existingProduct) {
+      setProductExistInLocalStorage(true);
+    } else {
+      setProductExistInLocalStorage(false);
+    }
   }, []);
 
   const goToCheckout = () => {
-    return router.push(`/checkout/${id}`)
-  }
+    return router.push(`/checkout/${id}`);
+  };
+
+  const goToCart = () => {
+    return router.push("/cart");
+  };
+
+  const addToCart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cart.push(data?._id);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    setProductExistInLocalStorage(true)
+  };
 
   if (!data || loadig) {
     return (
@@ -127,12 +155,36 @@ export default function ProductByIdComp() {
             <p className="text-2xl font-bold">{data.title}</p>
             <p className="mt-8">{data.longDescription}</p>
             <div className="mt-8 space-x-4">
-              <button onClick={goToCheckout} className="bg-black text-white px-6 py-2 text-xl font-semibold transition-all hover:scale-105">
+              <Button
+                variant="shadow"
+                color="primary"
+                size="lg"
+                className="text-lg font-semibold"
+                onPress={goToCheckout}
+              >
                 Buy
-              </button>
-              <button className="bg-orange-600 text-white px-6 py-2 text-xl font-semibold transition-all hover:scale-105">
-                Add to cart
-              </button>
+              </Button>
+              {productExistInLocalStorage ? (
+                <Button
+                  size="lg"
+                  variant="shadow"
+                  color="warning"
+                  className="font-semibold text-lg"
+                  onPress={goToCart}
+                >
+                  Go to cart
+                </Button>
+              ) : (
+                <Button
+                  size="lg"
+                  variant="shadow"
+                  color="warning"
+                  className="font-semibold text-lg"
+                  onPress={addToCart}
+                >
+                  Add to cart
+                </Button>
+              )}
             </div>
           </div>
           <table className="table-auto mt-20 mr-20">

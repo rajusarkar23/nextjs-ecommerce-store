@@ -13,7 +13,13 @@ export async function getOTPSession() {
   }
 
   const decode = jwt.verify(cookie, `${process.env.USER_JWT_SECRET}`);
-  //@ts-expect-error
+  if (!decode) {
+    return NextResponse.json({
+      error: true,
+      message: "No seesion found or session has been expired.",
+    });
+  }
+  //@ts-expect-error: userId exists, there will be no problem
   const userId = decode.userId;
 
   return userId;
@@ -25,12 +31,12 @@ export async function checkUserSession() {
   if (!cookie) {
     return NextResponse.json({
       error: true,
-      message: "No session available, Plesae login again.",
+      message: "No session available, Plesae signin again.",
     });
   }
 
   const decode = jwt.verify(cookie, `${process.env.USER_JWT_SECRET}`);
-  //@ts-expect-error
+  //@ts-expect-error: userId exists, there will be no problem
   const userId = decode.userId;
   return userId;
 }

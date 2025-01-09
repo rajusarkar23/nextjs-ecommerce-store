@@ -1,5 +1,5 @@
 "use client";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { Slider, SliderValue } from "@nextui-org/slider";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -76,7 +76,10 @@ export default function CheckoutPageComp() {
           <div>
             <p className="text-xl font-semibold">
               Your quantity is
-              <span className="text-blue-600"> `&quot`{quantityValue}`&quot`</span>
+              <span className="text-blue-600">
+                {" "}
+                `&quot`{quantityValue}`&quot`
+              </span>
             </p>
           </div>
         </div>
@@ -89,17 +92,25 @@ export default function CheckoutPageComp() {
             <Input label="Near by/ Road/ Street" type="text" />
             <Input label="Pincode" type="text" />
           </div>
-          <button className="bg-black text-white px-6 py-3 text-xl font-semibold transition-all hover:scale-105 mt-4">
+          <Button
+            variant="ghost"
+            color="primary"
+            size="lg"
+            className="font-bold mt-4"
+          >
             Add address
-          </button>
+          </Button>
         </div>
         <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
-          <button
-            className="bg-orange-500 text-white px-6 py-3 text-xl font-semibold transition-all hover:scale-105 mt-4"
-            onClick={goForCheckout}
+          <Button
+            variant="shadow"
+            color="primary"
+            size="lg"
+            className="font-bold"
+            onPress={goForCheckout}
           >
-           Pay ₹{priceToNumber}
-          </button>
+            Pay ₹{priceToNumber}
+          </Button>
         </div>
       </div>
     </>

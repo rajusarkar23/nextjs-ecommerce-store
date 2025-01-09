@@ -3,8 +3,11 @@ import { Form, Input, Button, button, Spinner } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+interface CustomSVGProps extends React.SVGProps<SVGSVGElement> {
+  children?: React.ReactNode;
+}
 
-export const EyeSlashFilledIcon = (props: any) => {
+export const EyeSlashFilledIcon = (props: CustomSVGProps) => {
   return (
     <svg
       aria-hidden="true"
@@ -40,7 +43,7 @@ export const EyeSlashFilledIcon = (props: any) => {
   );
 };
 
-export const EyeFilledIcon = (props: any) => {
+export const EyeFilledIcon = (props: CustomSVGProps) => {
   return (
     <svg
       aria-hidden="true"
