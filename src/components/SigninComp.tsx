@@ -1,11 +1,13 @@
 "use client";
+import userDataStore from "@/store/userDataStore";
 import { Form, Input, Button, Spinner } from "@nextui-org/react";
+import { X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface CustomSVGProps extends React.SVGProps<SVGSVGElement> {
-  children?: React.ReactNode; 
+  children?: React.ReactNode;
 }
 
 export const EyeSlashFilledIcon = (props: CustomSVGProps) => {
@@ -19,7 +21,7 @@ export const EyeSlashFilledIcon = (props: CustomSVGProps) => {
       viewBox="0 0 24 24"
       width="1em"
       {...props}
-      
+
     >
       <path
         d="M21.2714 9.17834C20.9814 8.71834 20.6714 8.28834 20.3514 7.88834C19.9814 7.41834 19.2814 7.37834 18.8614 7.79834L15.8614 10.7983C16.0814 11.4583 16.1214 12.2183 15.9214 13.0083C15.5714 14.4183 14.4314 15.5583 13.0214 15.9083C12.2314 16.1083 11.4714 16.0683 10.8114 15.8483C10.8114 15.8483 9.38141 17.2783 8.35141 18.3083C7.85141 18.8083 8.01141 19.6883 8.68141 19.9483C9.75141 20.3583 10.8614 20.5683 12.0014 20.5683C13.7814 20.5683 15.5114 20.0483 17.0914 19.0783C18.7014 18.0783 20.1514 16.6083 21.3214 14.7383C22.2714 13.2283 22.2214 10.6883 21.2714 9.17834Z"
@@ -71,39 +73,36 @@ export const EyeFilledIcon = (props: CustomSVGProps) => {
 
 export default function SigninComp() {
   const [isVisible, setIsVisible] = useState(false);
-  const [getResponse, setGetResponse] = useState(false);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessageI] = useState("");
   const router = useRouter();
-  const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  const { isLoading, isLoggedIn, fullName, isError, getUserFromSignin, email, setErrorMessage } = userDataStore()
+  console.log("isLoggedIn", isLoggedIn);
+  console.log("set error", setErrorMessage);
+  console.log("isError", isError);
+
+
+
+  const handleSignin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget));
     const email = data.email
-    console.log("email is",email);
-    
-    try {
-      setGetResponse(true);
-      setError(false);
-      const res = await fetch("/api/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "applicatin/json",
-        },
-        body: JSON.stringify(data),
-      });
+    const password = data.password
 
-      const response = await res.json();
-      if (response.error === false) {
-        setGetResponse(false);
-        router.push("/cart");
-      } else {
-        setGetResponse(false);
-        setError(true);
-        setErrorMessage(response.message);
+    try {
+      if (typeof email === "string" && typeof password === "string") {
+        await getUserFromSignin(email, password)
+        if (isLoggedIn) {
+          router.push("/profile")
+        }
       }
     } catch (error) {
       console.log(error);
+
     }
+
+
   };
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -112,7 +111,7 @@ export default function SigninComp() {
     <Form
       className="w-full max-w-xs flex flex-col gap-4 items-center justify-center"
       validationBehavior="native"
-      onSubmit={onsubmit}
+      onSubmit={handleSignin}
     >
       <Input
         isRequired
@@ -147,7 +146,7 @@ export default function SigninComp() {
         }
       />
       <div className="flex gap-2 flex-col">
-        {getResponse ? (
+        {isLoading ? (
           <Button isDisabled color="default" className="w-32">
             Wait...
             <Spinner color="primary" size="sm" />
@@ -157,13 +156,19 @@ export default function SigninComp() {
             Signin
           </Button>
         )}
-        <div>{error ? <p className="font-bold text-red-500">{errorMessage}</p> : <p></p>}</div>
+        <div className="flex">{isError ? <p className="font-bold text-red-500 flex"><X />{setErrorMessage}</p> : <p></p>}</div>
       </div>
       <div className="font-semibold text-orange-500">
         New?
         <Link href={"/signup"} className="text-blue-500 underline">
           Signup
         </Link>
+      </div>
+
+      <div>
+        {
+          isError ? (<></>) : (<p></p>)
+        }
       </div>
     </Form>
   );

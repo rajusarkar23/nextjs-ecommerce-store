@@ -1,5 +1,6 @@
 "use client";
 
+import userDataStore from "@/store/userDataStore";
 import {
   Navbar,
   NavbarBrand,
@@ -9,7 +10,6 @@ import {
 } from "@nextui-org/react";
 import { ShoppingCart, UserCircle } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export const SearchIcon = ({
   size = 24,
@@ -48,29 +48,8 @@ export const SearchIcon = ({
 };
 
 export default function NavbarComp() {
-  const [sessionAvailable, setSessionAvailable] = useState(false);
-
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const res = await fetch("/api/auth/get-session", {
-          method: "GET",
-        });
-        const response = await res.json();
-        if (response.error === false) {
-          setSessionAvailable(true);
-        } else {
-          console.log(response);
-          
-          setSessionAvailable(false);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    checkSession();
-  }, []);
+  const { isSessionAvailable } = userDataStore()
+  console.log("isSessionAvailable", isSessionAvailable);
 
   return (
     <Navbar isBordered shouldHideOnScroll>
@@ -100,7 +79,7 @@ export default function NavbarComp() {
         <Link href={"/cart"}>
           <ShoppingCart className="text-blue-500 hover:scale-105 transition-all" />
         </Link>
-        {sessionAvailable ? (
+        {isSessionAvailable ? (
           <Link href="/profile">
             <UserCircle className="text-blue-500 hover:scale-105 transition-all" />
           </Link>

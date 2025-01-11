@@ -1,4 +1,4 @@
-import SigninComp from '@/components/TestSigninComp'
+import SigninComp from '@/components/SigninComp'
 import React from 'react'
 
 const Signin = () => {
