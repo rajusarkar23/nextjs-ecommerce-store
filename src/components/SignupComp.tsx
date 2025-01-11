@@ -122,6 +122,15 @@ export default function SignupComp() {
       />
       <Input
         isRequired
+        errorMessage="Full name is required"
+        label="Full name"
+        labelPlacement="outside"
+        name="fullName"
+        placeholder="Enter your full name"
+        type="text"
+      />
+      <Input
+        isRequired
         errorMessage="Please enter your password"
         label="Password"
         labelPlacement="outside"

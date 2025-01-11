@@ -8,7 +8,7 @@ import { User } from "@/utils/models/user.model";
 import { generateOTP } from "@/utils";
 
 export async function POST(req: Request) {
-  const { email, password } = await req.json();
+  const { email, password, fullName } = await req.json();
   console.log(email);
 
   if (!email || !password) {
@@ -42,6 +42,7 @@ export async function POST(req: Request) {
     const hashOTP = bcrypt.hashSync(otp, 10)
     const create = await User.create({
       email,
+      fullName,
       password: hashPassword,
       otp: hashOTP
     });
