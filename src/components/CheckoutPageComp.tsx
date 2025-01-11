@@ -52,7 +52,7 @@ export default function CheckoutPageComp() {
   return (
     <>
       <div className="mt-8 flex flex-col justify-center items-center">
-        <div className="flex flex-row border  w-[600px] py-8 rounded shadow-md">
+        <div className="flex flex-row border w-[600px] py-8 rounded shadow-md">
           <div>
             <img src={data.imageUrl} alt="image" width={100} />
           </div>
