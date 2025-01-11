@@ -78,7 +78,9 @@ export default function SigninComp() {
   const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget));
-
+    const email = data.email
+    console.log("email is",email);
+    
     try {
       setGetResponse(true);
       setError(false);
