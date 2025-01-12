@@ -145,10 +145,10 @@ export default function ProductByIdComp() {
   return (
     <>
       <div className="flex">
-        <div className="">
-          <img src={data.imageUrl} alt="product-image" width={600} />
+        <div className="fixed">
+          <img src={data.imageUrl} alt="product-image" width={400} />
         </div>
-        <div className="ml-10">
+        <div className="ml-[26rem]">
           <div className="mt-10">
             <p className="text-2xl font-bold">{data.title}</p>
             <p className="mt-8">{data.longDescription}</p>
@@ -185,7 +185,7 @@ export default function ProductByIdComp() {
               )}
             </div>
           </div>
-          <table className="table-auto mt-20 mr-20">
+          <table className="table-auto mt-20 mr-52">
             <thead className="border border-gray-500 border-collapse">
               <tr>
                 <th>{tagsObj.tableTitle}</th>

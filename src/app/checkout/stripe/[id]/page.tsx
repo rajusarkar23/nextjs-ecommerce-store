@@ -1,6 +1,7 @@
 "use client";
 
 import CheckoutForm from "@/components/CheckoutForm";
+import { Spinner } from "@nextui-org/spinner";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useParams } from "next/navigation";
@@ -21,8 +22,10 @@ interface data {
 
 const StripeCheckout = () => {
   const [data, setData] = useState<data>();
+  const [loading, setLoading] = useState(false)
   const id = useParams().id;
   const getProductDetails = async () => {
+    setLoading(true)
     try {
       const res = await fetch("/api/admin/product/by-id", {
         method: "POST",
@@ -34,6 +37,9 @@ const StripeCheckout = () => {
       const response = await res.json();
       if (response.success === true) {
         setData(response.find);
+        setLoading(false)
+      } else{
+        setLoading(false)
       }
     } catch (error) {
       console.log(error);
@@ -43,8 +49,14 @@ const StripeCheckout = () => {
     getProductDetails();
   }, []);
 
-  if (!data) {
-    return <div>no data</div>;
+ 
+  if (!data || loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner color="default" />
+        <p className="text-gray-300 font-semibold ml-2">Loading...</p>
+      </div>
+    );
   }
 
   const priceToNumber = Number(data.price);

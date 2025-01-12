@@ -1,5 +1,5 @@
 "use client";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Spinner } from "@nextui-org/react";
 import { Slider, SliderValue } from "@nextui-org/slider";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,9 +15,11 @@ export default function CheckoutPageComp() {
   const id = useParams().id;
   const [quantityValue, setQuantityValue] = useState("1");
   const [data, setData] = useState<data>();
+  const [loading, setLoading] = useState(false)
   const router = useRouter();
 
   const fetchProduct = async () => {
+    setLoading(true)
     try {
       const res = await fetch("/api/admin/product/by-id", {
         method: "POST",
@@ -31,6 +33,9 @@ export default function CheckoutPageComp() {
 
       if (response.success === true) {
         setData(response.find);
+        setLoading(false)
+      } else{
+        setLoading(false)
       }
     } catch (error) {
       console.log(error);
@@ -62,8 +67,14 @@ export default function CheckoutPageComp() {
     getUserAddress()
   }, []);
 
-  if (!data) {
-    return <div>no data</div>;
+ 
+  if (!data || loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner color="default" />
+        <p className="text-gray-300 font-semibold ml-2">Loading...</p>
+      </div>
+    );
   }
   const priceToNumber = Number(data.price);
 
