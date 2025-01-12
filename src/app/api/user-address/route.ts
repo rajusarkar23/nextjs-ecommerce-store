@@ -6,12 +6,11 @@ import { ObjectId } from "mongodb";
 
 export async function POST(req: Request) {
     const { name, mobile, state, city, nearByRoadStreet, pincode } = await req.json()
-    await dbConnection()
     const userId = await checkUserSession()
-
     if (!ObjectId.isValid(userId)) {
-        return NextResponse.json({error: true, message: "Invalid user id or invalid session."})
+        return NextResponse.json({ error: true, message: "Invalid user id or invalid session." })
     }
+    await dbConnection()
 
     try {
         const create = await UserAddress.create({
@@ -34,4 +33,25 @@ export async function POST(req: Request) {
 
     }
 
+}
+
+export async function GET() {
+    const userId = await checkUserSession()
+
+    if (!ObjectId.isValid(userId)) {
+        return NextResponse.json({ error: true, message: "Invalid user Id" })
+    }
+
+    await dbConnection()
+
+    try {
+        const find = await UserAddress.find({ addressBelongTo: userId })
+        if (find.length === 0) {
+            return NextResponse.json({ error: true, message: "No address found." })
+        }
+        return NextResponse.json({ error: false, find })
+    } catch (error) {
+        console.log(error);
+
+    }
 }

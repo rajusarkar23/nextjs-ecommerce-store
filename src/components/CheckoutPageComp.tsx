@@ -37,12 +37,29 @@ export default function CheckoutPageComp() {
     }
   };
 
+  const getUserAddress = async() => {
+    try {
+      const res = await fetch("/api/user-address", {
+        method: "GET"
+      })
+
+      const response = await res.json()
+
+      console.log(response);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
   const goForCheckout = () => {
     return router.push(`/checkout/stripe/${id}`);
   };
 
   useEffect(() => {
     fetchProduct();
+    getUserAddress()
   }, []);
 
   if (!data) {
