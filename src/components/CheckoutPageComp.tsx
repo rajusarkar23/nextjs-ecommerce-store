@@ -3,6 +3,7 @@ import { Button, Input } from "@nextui-org/react";
 import { Slider, SliderValue } from "@nextui-org/slider";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import AddAddressComp from "./AddAddressComp";
 
 interface data {
   title: string;
@@ -77,29 +78,13 @@ export default function CheckoutPageComp() {
             <p className="text-xl font-semibold">
               Your quantity is
               <span className="text-blue-600">
-                {" "}
-                `&quot`{quantityValue}`&quot`
+                &quot;{quantityValue}&quot;
               </span>
             </p>
           </div>
         </div>
-        <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
-          <div className="grid grid-cols-2 gap-4">
-            <Input label="Name" type="text" />
-            <Input label="Mobile" type="text" />
-            <Input label="State" type="text" />
-            <Input label="City" type="text" />
-            <Input label="Near by/ Road/ Street" type="text" />
-            <Input label="Pincode" type="text" />
-          </div>
-          <Button
-            variant="ghost"
-            color="primary"
-            size="lg"
-            className="font-bold mt-4"
-          >
-            Add address
-          </Button>
+        <div>
+         <AddAddressComp />
         </div>
         <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
           <Button

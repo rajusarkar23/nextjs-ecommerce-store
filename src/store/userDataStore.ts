@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation"
+import { NextResponse } from "next/server"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
@@ -7,6 +8,7 @@ interface userData {
     isError: boolean,
     setErrorMessage: string,
     fullName: string,
+    userId: string,
     email: string,
     isLoggedIn: boolean,
     isSessionAvailable: boolean,
@@ -18,6 +20,7 @@ const userDataStore = create(persist<userData>((set) => ({
     isError: false,
     setErrorMessage: "",
     fullName: "",
+    userId: "",
     email: "",
     isLoggedIn: false,
     isSessionAvailable: false,
@@ -42,6 +45,7 @@ const userDataStore = create(persist<userData>((set) => ({
                 set({
                     isLoading: false,
                     fullName: userData.fullName,
+                    userId: userData._id,
                     email: userData.email,
                     isLoggedIn: true,
                 })

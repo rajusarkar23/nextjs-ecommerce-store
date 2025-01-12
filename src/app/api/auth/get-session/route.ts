@@ -25,9 +25,10 @@ export async function GET() {
     if (!findUser) {
       return NextResponse.json({ error: true, message: "No user found." });
     } else {
-      return NextResponse.json({ error: false, message: "Session available." });
+      return NextResponse.json({ error: false, message: "User available." });
     }
   } catch (error) {
     console.log(error);
+    return NextResponse.json({error: true, message: "Something went wrong in get session, plesae try again."})
   }
 }

@@ -3,8 +3,8 @@ import userDataStore from "@/store/userDataStore";
 import { Form, Input, Button, Spinner } from "@nextui-org/react";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 interface CustomSVGProps extends React.SVGProps<SVGSVGElement> {
   children?: React.ReactNode;
@@ -77,8 +77,10 @@ export default function SigninComp() {
   const [errorMessage, setErrorMessageI] = useState("");
   const router = useRouter();
 
-  const { isLoading, isLoggedIn, fullName, isError, getUserFromSignin, email, setErrorMessage } = userDataStore()
+  const { isLoading, isLoggedIn, isSessionAvailable, fullName, isError, getUserFromSignin, email, setErrorMessage } = userDataStore()
   console.log("isLoggedIn", isLoggedIn);
+  console.log("is session available", isSessionAvailable);
+
   console.log("set error", setErrorMessage);
   console.log("isError", isError);
 
@@ -89,21 +91,25 @@ export default function SigninComp() {
     const data = Object.fromEntries(new FormData(e.currentTarget));
     const email = data.email
     const password = data.password
-
     try {
       if (typeof email === "string" && typeof password === "string") {
         await getUserFromSignin(email, password)
-        if (isLoggedIn) {
-          router.push("/profile")
-        }
       }
+
     } catch (error) {
       console.log(error);
-
     }
-
-
   };
+
+
+  useEffect(() => {
+    const check = () => {
+      if (isLoggedIn && isSessionAvailable) {
+        return router.push("/profile")
+      }
+    }
+    check()
+  }, [isLoggedIn, isSessionAvailable])
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 

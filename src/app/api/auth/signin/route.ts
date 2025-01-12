@@ -14,8 +14,14 @@ export async function POST(req: Request) {
     });
   }
   await dbConnection();
+  console.log("ran");
+  
   try {
+    console.log("ran2");
+    
     const findUser = await User.findOne({ email });
+    console.log("ran3");
+    
     if (!findUser) {
       return NextResponse.json({ error: true, message: "User not found." });
     }
@@ -36,5 +42,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: false, message: "Signin success.", data: findUser });
   } catch (error) {
     console.log(error);
+    return NextResponse.json({error: true, message: "Something went wrong, Please try again."})
   }
 }
