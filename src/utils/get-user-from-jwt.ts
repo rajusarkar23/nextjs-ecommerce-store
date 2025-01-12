@@ -25,6 +25,9 @@ export async function getOTPSession() {
   return userId;
 }
 
+
+// if the session is invalid => clear the local state
+// and prompt them to login again
 export async function checkUserSession() {
   const cookie = (await cookies()).get("session")?.value;
 

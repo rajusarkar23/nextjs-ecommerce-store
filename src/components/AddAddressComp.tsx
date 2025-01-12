@@ -1,24 +1,49 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button, Form, Input } from "@nextui-org/react";
 
 export default function AddAddressComp() {
+
+    const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.currentTarget));
+        try {
+            const res = await fetch("/api/user-address", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+
+            const response = await res.json()
+            console.log(response);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
-        <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
-            <div className="grid grid-cols-2 gap-4">
-                <Input label="Name" type="text" />
-                <Input label="Mobile" type="text" />
-                <Input label="State" type="text" />
-                <Input label="City" type="text" />
-                <Input label="Near by/ Road/ Street" type="text" />
-                <Input label="Pincode" type="text" />
+        <Form className="flex justify-center items-center border shadow-lg rounded w-[600px] h-[300px] mt-4" onSubmit={onsubmit}>
+            <div className="flex justify-center items-center flex-col">
+                <div className="grid grid-cols-2 gap-4">
+                    <Input name="name" label="Name" type="text" />
+                    <Input name="mobile" label="Mobile" type="number" />
+                    <Input name="state" label="State" type="text" />
+                    <Input name="city" label="City" type="text" />
+                    <Input name="nearByRoadStreet" label="Near by/ Road/ Street" type="text" />
+                    <Input name="pincode" label="Pincode" type="number" />
+                </div>
+                <div>
+                    <Button
+                        variant="ghost"
+                        color="primary"
+                        size="lg"
+                        className="font-bold mt-4"
+                        type="submit"
+                    >
+                        Add address
+                    </Button>
+                </div>
             </div>
-            <Button
-                variant="ghost"
-                color="primary"
-                size="lg"
-                className="font-bold mt-4"
-            >
-                Add address
-            </Button>
-        </div>
+        </Form>
     )
 }
