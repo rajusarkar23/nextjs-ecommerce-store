@@ -80,7 +80,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
 
       <button
         disabled={!stripe || loading}
-        className="text-white w-full px-5 py-3 bg-orange-500 mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
+        className="text-white w-full px-5 py-3 bg-blue-500 hover:bg-blue-600 transition-all mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
       >
         {!loading ? `Pay ₹${amount}` : "Processing..."}
       </button>

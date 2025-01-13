@@ -72,8 +72,25 @@ export default function HomepageProduct() {
   }
 
   return (
-    <div>
-      <div className="space-y-4 flex flex-row mt-8">
+    // <div className="flex justify-between">
+    //   <div className="space-y-4 flex flex-row mt-8">
+    //     {data.map((item, index) => (
+    //       <Link href={`/product/${item.title}/${item._id}`} key={index}>
+    //         <Card className="ml-2 w-96">
+    //           <CardHeader>
+    //             <img src={item.imageUrl} alt="image" />
+    //           </CardHeader>
+    //           <CardBody className="flex justify-center items-center">
+    //             <p>{item.title}</p>
+    //           </CardBody>
+    //         </Card>
+    //       </Link>
+    //     ))}
+        
+    //   </div>
+    // </div>
+
+    <div className="flex py-4 justify-center">
         {data.map((item, index) => (
           <Link href={`/product/${item.title}/${item._id}`} key={index}>
             <Card className="ml-2 w-96">
@@ -86,8 +103,6 @@ export default function HomepageProduct() {
             </Card>
           </Link>
         ))}
-        
-      </div>
     </div>
   );
 }

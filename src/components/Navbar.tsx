@@ -52,7 +52,7 @@ export default function NavbarComp() {
   console.log("isSessionAvailable", isSessionAvailable);
 
   return (
-    <Navbar isBordered shouldHideOnScroll>
+    <Navbar isBordered shouldHideOnScroll maxWidth="lg">
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
           <Link href={"/"} className="block font-bold text-2xl text-blue-500">
