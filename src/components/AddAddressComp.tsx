@@ -19,7 +19,6 @@ export default function AddAddressComp() {
             })
 
             const response = await res.json()
-            console.log(response);
 
             if (response.error === false) {
                 console.log("no error");

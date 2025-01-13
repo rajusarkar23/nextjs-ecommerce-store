@@ -4,6 +4,7 @@ import { Slider, SliderValue } from "@nextui-org/slider";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddAddressComp from "./AddAddressComp";
+import SelectAddressComp from "./SelectAddressComp";
 
 interface data {
   title: string;
@@ -113,6 +114,7 @@ export default function CheckoutPageComp() {
         </div>
         <div>
          <AddAddressComp />
+         <SelectAddressComp />
         </div>
         <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
           <Button
