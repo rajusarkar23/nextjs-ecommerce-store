@@ -10,10 +10,18 @@ const OrderSchema = new Schema(
       type: String,
       required: true,
     },
-    buyerId: {
+    orderedBy: {
       type: String,
       required: true,
     },
+    isPaymentSuccess: {
+      type: Boolean,
+      default: false
+    },
+    isOrderDelivered: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );
