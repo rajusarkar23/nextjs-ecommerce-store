@@ -14,7 +14,7 @@ export default function ShowCarousel() {
         <div className="flex justify-center mt-4">
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]} navigation pagination={{ clickable: true }} autoplay={{ delay: 2000, disableOnInteraction: false }}
-                className="sm:w-[900px] w-96 h-44"
+                className="sm:w-[1000px] w-96 h-44"
             >
                 <SwiperSlide>
 

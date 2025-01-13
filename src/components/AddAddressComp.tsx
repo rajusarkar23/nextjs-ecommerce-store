@@ -1,6 +1,10 @@
+import userDataStore from "@/store/userDataStore";
 import { Button, Form, Input } from "@nextui-org/react";
+import { useEffect } from "react";
 
 export default function AddAddressComp() {
+
+    const {getUserAddresses, addresses} = userDataStore()
 
     const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -17,10 +21,20 @@ export default function AddAddressComp() {
             const response = await res.json()
             console.log(response);
 
+            if (response.error === false) {
+                console.log("no error");
+                await getUserAddresses()
+            }
+
         } catch (error) {
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        console.log(addresses);
+        
+    }, [getUserAddresses])
     return (
         <Form className="flex justify-center items-center border shadow-lg rounded w-[600px] h-[300px] mt-4" onSubmit={onsubmit}>
             <div className="flex justify-center items-center flex-col">

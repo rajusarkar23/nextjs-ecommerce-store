@@ -25,9 +25,9 @@ const UserAddressSchema = new Schema({
     type: Number,
     required: [true, "Pincode is required"]
   },
-  addressBelongTo: {
+  addressCreatedBy: {
     type: String,
-    required: [true, "addressBelongTo undefined"]
+    required: [true, "addressCreatedBy undefined"]
   }
 }, { timestamps: true });
 

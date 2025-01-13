@@ -20,7 +20,7 @@ export async function POST(req: Request) {
             city,
             nearByRoadStreet,
             pincode,
-            addressBelongTo: userId
+            addressCreatedBy: userId
         })
         if (!create) {
             console.log("unable to create");
@@ -45,13 +45,13 @@ export async function GET() {
     await dbConnection()
 
     try {
-        const find = await UserAddress.find({ addressBelongTo: userId })
-        if (find.length === 0) {
-            return NextResponse.json({ error: true, message: "No address found." })
+        const getAddresses = await UserAddress.find({ addressCreatedBy: userId })
+        if (getAddresses.length === 0) {
+            return NextResponse.json({ error: true, message: "Have zero registered address.." })
         }
-        return NextResponse.json({ error: false, find })
+        return NextResponse.json({ error: false, message: "Address found.", getAddresses })
     } catch (error) {
         console.log(error);
-
+        return NextResponse.json({error: true, message: "Internal server error, try again."})
     }
 }

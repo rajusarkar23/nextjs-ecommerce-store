@@ -10,9 +10,11 @@ interface userData {
     fullName: string,
     userId: string,
     email: string,
+    addresses: any,
     isLoggedIn: boolean,
     isSessionAvailable: boolean,
     getUserFromSignin: (email: string, password: string) => Promise<void>,
+    getUserAddresses: () => Promise<void>
 }
 
 const userDataStore = create(persist<userData>((set) => ({
@@ -22,6 +24,7 @@ const userDataStore = create(persist<userData>((set) => ({
     fullName: "",
     userId: "",
     email: "",
+    addresses: [],
     isLoggedIn: false,
     isSessionAvailable: false,
     // function to send api reqs
@@ -78,6 +81,25 @@ const userDataStore = create(persist<userData>((set) => ({
             console.log("error in signin");
             console.log(error);
             set({ isLoading: false })
+        }
+    },
+    getUserAddresses: async() => {
+        set({isLoading: true, isError: false})
+
+        try {
+            const res = await fetch("/api/user-address",{
+                method: "GET"
+            })
+            const response = await res.json()
+
+            if (response.error === false) {
+                console.log(response.getAddresses);
+                set({addresses: response.getAddresses,isLoading: false})
+            } else {
+                set({isLoading: false, isError: true, setErrorMessage: response.message})
+            }
+        } catch (error) {
+            
         }
     }
 }), { name: "user" }))
