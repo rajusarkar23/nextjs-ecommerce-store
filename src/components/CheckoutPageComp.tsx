@@ -5,11 +5,21 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddAddressComp from "./AddAddressComp";
 import SelectAddressComp from "./SelectAddressComp";
+import userDataStore from "@/store/userDataStore";
 
 interface data {
   title: string;
   price: string;
   imageUrl: string;
+}
+
+interface address {
+  state: string,
+  city: string,
+  nearByRoadStreet: string,
+  pincode: number,
+  name: string,
+  _id: string
 }
 
 export default function CheckoutPageComp() {
@@ -18,6 +28,15 @@ export default function CheckoutPageComp() {
   const [data, setData] = useState<data>();
   const [loading, setLoading] = useState(false)
   const router = useRouter();
+
+  const { addresses } = userDataStore()
+
+  const [address, setAddress] = useState<address[]>([])
+  console.log(address);
+
+  useEffect(() => {
+      setAddress(addresses)
+  }, [])
 
   const fetchProduct = async () => {
     setLoading(true)
@@ -113,8 +132,11 @@ export default function CheckoutPageComp() {
           </div>
         </div>
         <div>
-         <AddAddressComp />
-         <SelectAddressComp />
+          {
+            address.length > 0 ? (  <SelectAddressComp />) : (<AddAddressComp />)
+          }
+         
+       
         </div>
         <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
           <Button
