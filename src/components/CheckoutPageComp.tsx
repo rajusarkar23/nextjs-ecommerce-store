@@ -32,8 +32,6 @@ export default function CheckoutPageComp() {
   const { addresses } = userDataStore()
 
   const [address, setAddress] = useState<address[]>([])
-  console.log(address);
-
   useEffect(() => {
       setAddress(addresses)
   }, [])

@@ -49,7 +49,6 @@ export const SearchIcon = ({
 
 export default function NavbarComp() {
   const { isSessionAvailable } = userDataStore()
-  console.log("isSessionAvailable", isSessionAvailable);
 
   return (
     <Navbar isBordered shouldHideOnScroll maxWidth="lg">

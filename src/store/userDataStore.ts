@@ -40,11 +40,9 @@ const userDataStore = create(persist<userData>((set) => ({
                 body: JSON.stringify({ email, password })
             })
             const response = await res.json()
-            console.log(response);
             // if error => false
             if (response.error === false) {
                 const userData = response.data;
-                console.log(userData);
                 set({
                     isLoading: false,
                     fullName: userData.fullName,
@@ -78,7 +76,6 @@ const userDataStore = create(persist<userData>((set) => ({
                 })
             }
         } catch (error) {
-            console.log("error in signin");
             console.log(error);
             set({ isLoading: false })
         }
@@ -93,7 +90,6 @@ const userDataStore = create(persist<userData>((set) => ({
             const response = await res.json()
 
             if (response.error === false) {
-                console.log(response.getAddresses);
                 set({addresses: response.getAddresses,isLoading: false})
             } else {
                 set({isLoading: false, isError: true, setErrorMessage: response.message})

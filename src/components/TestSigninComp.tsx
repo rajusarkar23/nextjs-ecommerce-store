@@ -78,7 +78,6 @@ export default function SigninComp() {
     const router = useRouter();
 
     const { isLoading, isLoggedIn, fullName, isError, getUserFromSignin, email } = userDataStore()
-console.log("isLoggedIn", isLoggedIn);
 
     const handleSignin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

@@ -16,8 +16,6 @@ export default function SelectAddressComp() {
     const [value, setValue] = useState(new Set([]))
     console.log(address);
 
-    console.log(typeof (value));
-
     useEffect(() => {
         setAddress(addresses)
     }, [])

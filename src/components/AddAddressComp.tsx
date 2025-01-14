@@ -21,7 +21,6 @@ export default function AddAddressComp() {
             const response = await res.json()
 
             if (response.error === false) {
-                console.log("no error");
                 await getUserAddresses()
             }
 
@@ -30,10 +29,6 @@ export default function AddAddressComp() {
         }
     }
 
-    useEffect(() => {
-        console.log(addresses);
-        
-    }, [getUserAddresses])
     return (
         <Form className="flex justify-center items-center border shadow-lg rounded w-[600px] h-[300px] mt-4" onSubmit={onsubmit}>
             <div className="flex justify-center items-center flex-col">
