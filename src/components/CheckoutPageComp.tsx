@@ -1,16 +1,24 @@
 "use client";
-import { Button, Input, Spinner } from "@nextui-org/react";
+import { Button, Select, SelectItem, Spinner } from "@nextui-org/react";
 import { Slider, SliderValue } from "@nextui-org/slider";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddAddressComp from "./AddAddressComp";
-import SelectAddressComp from "./SelectAddressComp";
 import userDataStore from "@/store/userDataStore";
 
 interface data {
   title: string;
   price: string;
   imageUrl: string;
+}
+
+interface address {
+  state: string,
+  city: string,
+  nearByRoadStreet: string,
+  pincode: number,
+  name: string,
+  _id: string
 }
 
 interface address {
@@ -32,9 +40,15 @@ export default function CheckoutPageComp() {
   const { addresses } = userDataStore()
 
   const [address, setAddress] = useState<address[]>([])
+  const [selectedAddress, setSelectedAddress] = useState<address>()
+  const [value, setValue] = useState(new Set([]))
+
+
+
   useEffect(() => {
-      setAddress(addresses)
+    setAddress(addresses)
   }, [])
+
 
   const fetchProduct = async () => {
     setLoading(true)
@@ -52,7 +66,7 @@ export default function CheckoutPageComp() {
       if (response.success === true) {
         setData(response.find);
         setLoading(false)
-      } else{
+      } else {
         setLoading(false)
       }
     } catch (error) {
@@ -60,7 +74,7 @@ export default function CheckoutPageComp() {
     }
   };
 
-  const getUserAddress = async() => {
+  const getUserAddress = async () => {
     try {
       const res = await fetch("/api/user-address", {
         method: "GET"
@@ -69,10 +83,10 @@ export default function CheckoutPageComp() {
       const response = await res.json()
 
       console.log(response);
-      
+
     } catch (error) {
       console.log(error);
-      
+
     }
   }
 
@@ -85,7 +99,18 @@ export default function CheckoutPageComp() {
     getUserAddress()
   }, []);
 
- 
+  const handleSelectionChange = (e: any) => {
+    setValue(e.target.value)
+  }
+  // find object by id
+  //@ts-expect-error
+  const findById = address.find(obj => obj._id === value)
+  // set the object which is found
+  useEffect(() => {
+    setSelectedAddress(findById)
+  }, [findById])
+
+
   if (!data || loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -131,10 +156,25 @@ export default function CheckoutPageComp() {
         </div>
         <div>
           {
-            address.length > 0 ? (  <SelectAddressComp />) : (<AddAddressComp />)
+            address.length > 0 ? (<div className="flex justify-center items-center border shadow-lg rounded w-[600px] h-[300px] mt-4 px-12">
+              <Select
+                className="max-w-xl"
+                label="Delivery address"
+                placeholder="Select an address"
+                onChange={handleSelectionChange}
+              >
+                {
+                  address.map((items) => (
+                    <SelectItem key={items._id} className="truncate" value={JSON.stringify(items)}>{`${items.name}, ${items.nearByRoadStreet}, ${items.city}, ${items.state}, ${items.pincode}`}</SelectItem>
+                  ))
+                }
+
+              </Select>
+
+            </div>) : (<AddAddressComp />)
           }
-         
-       
+
+
         </div>
         <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
           <Button
@@ -145,7 +185,11 @@ export default function CheckoutPageComp() {
             onPress={goForCheckout}
           >
             Pay ₹{priceToNumber}
+
           </Button>
+          <div>
+            {selectedAddress?.name}
+          </div>
         </div>
       </div>
     </>

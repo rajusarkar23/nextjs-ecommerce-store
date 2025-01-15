@@ -11,24 +11,35 @@ interface address {
 }
 
 export default function SelectAddressComp() {
-    const { addresses } = userDataStore()
-    const [address, setAddress] = useState<address[]>([])
-    const [value, setValue] = useState(new Set([]))
-    console.log(address);
+    // addresses from store
 
+    const { addresses } = userDataStore()
+    // address array for selection
+    const [address, setAddress] = useState<address[]>([])
+    // address value => get the object id from here
+    const [value, setValue] = useState(new Set([]))
+    // set selected address
+    const [selectedAddress, setSelectedAddress] = useState<address>()
+    
+    
+   
+    // set address on page load
     useEffect(() => {
         setAddress(addresses)
     }, [])
 
-
+    // onchange set the object id
     const handleSelectionChange = (e: any) => {
         setValue(e.target.value)
     }
+    // find object by id
     //@ts-expect-error
     const findById = address.find(obj => obj._id === value)
-    console.log("ran");
+    // set the object which is found
+    useEffect(() => {
+        setSelectedAddress(findById)
+    }, [findById])
 
-    console.log(findById);
 
 
     return (
@@ -40,12 +51,16 @@ export default function SelectAddressComp() {
                 onChange={handleSelectionChange}
             >
                 {
-                    address.map((items, index) => (
+                    address.map((items) => (
                         <SelectItem key={items._id} className="truncate" value={JSON.stringify(items)}>{`${items.name}, ${items.nearByRoadStreet}, ${items.city}, ${items.state}, ${items.pincode}`}</SelectItem>
                     ))
                 }
 
             </Select>
+
+            <div>
+                {selectedAddress?.name}
+            </div>
         </div>
     );
 }
