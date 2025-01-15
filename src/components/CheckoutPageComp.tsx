@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddAddressComp from "./AddAddressComp";
 import userDataStore from "@/store/userDataStore";
+import StripeCheckout from "./StripeCheckout";
 
 interface data {
   title: string;
@@ -33,6 +34,7 @@ interface address {
 export default function CheckoutPageComp() {
   const id = useParams().id;
   const [quantityValue, setQuantityValue] = useState("1");
+
   const [data, setData] = useState<data>();
   const [loading, setLoading] = useState(false)
   const router = useRouter();
@@ -42,6 +44,24 @@ export default function CheckoutPageComp() {
   const [address, setAddress] = useState<address[]>([])
   const [selectedAddress, setSelectedAddress] = useState<address>()
   const [value, setValue] = useState(new Set([]))
+
+  const sendName = async () => {
+
+    try {
+      const res = await fetch("/api/order/test", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ selectedAddress, quantityValue })
+      })
+      const response = await res.json()
+      console.log(response);
+
+    } catch (error) {
+
+    }
+  }
 
 
 
@@ -90,10 +110,6 @@ export default function CheckoutPageComp() {
     }
   }
 
-  const goForCheckout = () => {
-    return router.push(`/checkout/stripe/${id}`);
-  };
-
   useEffect(() => {
     fetchProduct();
     getUserAddress()
@@ -121,6 +137,10 @@ export default function CheckoutPageComp() {
   }
   const priceToNumber = Number(data.price);
 
+  if (!id) {
+    return <>no id</>
+  }
+
   return (
     <>
       <div className="mt-8 flex flex-col justify-center items-center">
@@ -144,6 +164,9 @@ export default function CheckoutPageComp() {
               step={1}
               onChange={(e: SliderValue) => setQuantityValue(e.toString())}
             />
+          </div>
+          <div>
+            <button onClick={sendName}>send</button>
           </div>
           <div>
             <p className="text-xl font-semibold">
@@ -177,19 +200,10 @@ export default function CheckoutPageComp() {
 
         </div>
         <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
-          <Button
-            variant="shadow"
-            color="primary"
-            size="lg"
-            className="font-bold"
-            onPress={goForCheckout}
-          >
-            Pay ₹{priceToNumber}
-
-          </Button>
+          <StripeCheckout qty={quantityValue} deliveryAddress = {selectedAddress}/>
           <div>
             {selectedAddress?.name}
-          </div>
+          </div>z
         </div>
       </div>
     </>

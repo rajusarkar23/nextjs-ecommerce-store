@@ -6,9 +6,12 @@ const OrderSchema = new Schema(
       type: String,
       required: true,
     },
+    orderedQty: {
+      type: String,
+      required: [true, "Order quantity is required."]
+    },
     paymentId: {
       type: String,
-      required: true,
     },
     orderedBy: {
       type: String,
@@ -18,9 +21,16 @@ const OrderSchema = new Schema(
       type: Boolean,
       default: false
     },
+    isOrderPlacedSuccess: {
+      type: Boolean,
+      default: false
+    },
     isOrderDelivered: {
       type: Boolean,
       default: false
+    },
+    deliveryAddress: {
+      type: {}
     }
   },
   { timestamps: true }

@@ -5,8 +5,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: NextRequest) {
   try {
-    const { amount } = await request.json();
-
+    const { amount, qty } = await request.json();
+    console.log("rannnn");
+    
+    console.log("qty", qty);
+    
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "inr",

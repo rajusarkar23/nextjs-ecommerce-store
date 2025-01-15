@@ -8,12 +8,13 @@ import {
 } from "@stripe/react-stripe-js";
 import { useParams } from "next/navigation";
 
-const CheckoutForm = ({ amount }: { amount: number }) => {
+const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: string, deliveryAddress: any, }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+
 
   const id = useParams().id;
 
@@ -24,11 +25,12 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: 100 * amount }),
+      body: JSON.stringify({ amount: 100 * amount, qty }),
     })
       .then((res) => res.json()) // collecting the response
       .then((data) => setClientSecret(data.clientSecret)); // setting the clientSecret
   }, [amount]);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,6 +47,19 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       setLoading(false);
       return;
     }
+    // send api req for order place
+    console.log("qty", qty);
+    
+
+    await fetch("/api/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({productId: id, deliveryAddress, qty})
+    })
+
+
     // same above destructure example
     await stripe.confirmPayment({
       elements,
@@ -56,6 +71,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
 
     setLoading(false);
   };
+
 
   if (!clientSecret || !stripe || !elements) {
     return (
@@ -76,11 +92,13 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
     <form onSubmit={handleSubmit} className="bg-white p-2 rounded-md">
       {clientSecret && <PaymentElement />}
 
+
       {errorMessage && <div className="text-black">{errorMessage}</div>}
 
       <button
         disabled={!stripe || loading}
         className="text-white w-full px-5 py-3 bg-blue-500 hover:bg-blue-600 transition-all mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
+
       >
         {!loading ? `Pay ₹${amount}` : "Processing..."}
       </button>
