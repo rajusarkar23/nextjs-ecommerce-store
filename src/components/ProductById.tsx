@@ -132,7 +132,7 @@ export default function ProductByIdComp() {
     setProductExistInLocalStorage(true)
   };
 
-  if (!data || loadig) {
+  if (!data || loadig ) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <Spinner color="default" />
@@ -141,9 +141,6 @@ export default function ProductByIdComp() {
     );
   }
 
-  if (error) {
-    return
-  }
 
   return (
     <>
@@ -375,6 +372,9 @@ export default function ProductByIdComp() {
           </table>
         </div>
       </div>
+      {
+        error ? (<p>error in page loading</p>) : (<></>)
+      }
     </>
   );
 }
