@@ -61,7 +61,7 @@ const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: 
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/checkout/process-order/${productId}`,
+        return_url: `https://nextjs-ecommerce-store-sooty.vercel.app/checkout/process-order/${productId}`,
       },
     });
 
