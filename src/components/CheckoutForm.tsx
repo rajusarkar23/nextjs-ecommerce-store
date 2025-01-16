@@ -57,13 +57,13 @@ const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: 
     await placeOrderAndGetIds(productId, deliveryAddress, qty)
 
     // same above destructure example
-    // await stripe.confirmPayment({
-    //   elements,
-    //   clientSecret,
-    //   confirmParams: {
-    //     return_url: `http://www.localhost:3000/checkout/process-order/123`,
-    //   },
-    // });
+    await stripe.confirmPayment({
+      elements,
+      clientSecret,
+      confirmParams: {
+        return_url: `http://www.localhost:3000/checkout/process-order/${productId}`,
+      },
+    });
 
     setLoading(false);
   };

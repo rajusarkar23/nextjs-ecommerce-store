@@ -10,12 +10,12 @@ const OrderSchema = new Schema(
       type: String,
       required: [true, "Order quantity is required."]
     },
-    paymentId: {
-      type: String,
-    },
     orderedBy: {
       type: String,
       required: true,
+    },
+    paymentId: {
+      type: String,
     },
     isPaymentSuccess: {
       type: Boolean,
