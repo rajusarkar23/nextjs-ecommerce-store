@@ -1,20 +1,9 @@
-"use client"
 
-import userDataStore from "@/store/userDataStore";
-
-localStorage.setItem("name", "John Doe.")
-
-const name = localStorage.getItem("name")
 
 const Cart = () => {
-  const { fullName } = userDataStore();
   return (
     <div>
-      <div>{name}</div>
-<div>
-  <p>dvjhfjk</p>
-<p>{fullName}</p>
-</div>
+      caret
     </div>
   )
 }
