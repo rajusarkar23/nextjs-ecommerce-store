@@ -1,7 +1,6 @@
 "use client"
 
 import orderDetailsStore from "@/store/orderDetails";
-import { Search } from "lucide-react";
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react";
 
@@ -68,6 +67,15 @@ export default function ProcessOrderComp() {
         <div className="flex justify-center items-center mt-20">
             {
                 loading ? (<p className="text-2xl font-bold">Loading....</p>) : (<p className="text-2xl font-bold">Order placed.</p>)
+            }
+            {
+                isPaymentSuccess ? (<p>Payment success</p>) : (<p></p>)
+            }
+            {
+                placingOrder ? (<p>Placing order</p>) : (<></>)
+            }
+            {
+                isOrderPlaced ? (<p>Order placed</p>) : (<></>)
             }
         </div>
     )

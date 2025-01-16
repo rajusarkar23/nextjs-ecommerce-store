@@ -6,24 +6,24 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import orderDetailsStore from "@/store/orderDetails";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: string, deliveryAddress: any, }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
-  const {placeOrderAndGetIds, orderId} = orderDetailsStore()
+  const { placeOrderAndGetIds, orderId } = orderDetailsStore()
   const productId = useParams().id
 
   console.log(orderId);
-  
-  
 
 
-  
+
+
+
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -33,9 +33,9 @@ const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: 
       },
       body: JSON.stringify({ amount: 100 * amount, qty }),
     })
-      .then((res) => res.json()) 
+      .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
-  }, [amount]);
+  }, [amount, qty]);
 
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -53,7 +53,7 @@ const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: 
       return;
     }
     // send order api call here
-   
+
     await placeOrderAndGetIds(productId, deliveryAddress, qty)
 
     // same above destructure example

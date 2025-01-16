@@ -2,7 +2,7 @@
 
 import { Button } from "@nextui-org/button";
 import { Spinner } from "@nextui-org/spinner";
-import { redirect, useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface data {
@@ -67,8 +67,6 @@ const tagsObj = {
 
 export default function ProductByIdComp() {
   const [data, setData] = useState<data>();
-  const productId = data?._id;
-
   const [loadig, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [productExistInLocalStorage, setProductExistInLocalStorage] =
@@ -105,10 +103,11 @@ export default function ProductByIdComp() {
 
   useEffect(() => {
     getPrpoductById();
-  
+
     //get the cart from local storage
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     // find product by id
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const existingProduct = cart.find((item: any) => item === id);
     // if existing product id === para's id
     if (id === existingProduct) {
@@ -140,6 +139,10 @@ export default function ProductByIdComp() {
         <p className="text-gray-300 font-semibold ml-2">Loading...</p>
       </div>
     );
+  }
+
+  if (error) {
+    return
   }
 
   return (

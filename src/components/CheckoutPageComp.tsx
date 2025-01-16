@@ -1,7 +1,7 @@
 "use client";
-import { Button, Select, SelectItem, Spinner } from "@nextui-org/react";
+import { Select, SelectItem, Spinner } from "@nextui-org/react";
 import { Slider, SliderValue } from "@nextui-org/slider";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddAddressComp from "./AddAddressComp";
 import userDataStore from "@/store/userDataStore";
@@ -37,7 +37,6 @@ export default function CheckoutPageComp() {
 
   const [data, setData] = useState<data>();
   const [loading, setLoading] = useState(false)
-  const router = useRouter();
 
   const { addresses } = userDataStore()
 
@@ -59,6 +58,7 @@ export default function CheckoutPageComp() {
       console.log(response);
 
     } catch (error) {
+      console.log(error);
 
     }
   }
@@ -67,7 +67,7 @@ export default function CheckoutPageComp() {
 
   useEffect(() => {
     setAddress(addresses)
-  }, [])
+  }, [address])
 
 
   const fetchProduct = async () => {
@@ -114,12 +114,12 @@ export default function CheckoutPageComp() {
     fetchProduct();
     getUserAddress()
   }, []);
-
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const handleSelectionChange = (e: any) => {
     setValue(e.target.value)
   }
   // find object by id
-  //@ts-expect-error
+  // @ts-expect-error the address can be empty
   const findById = address.find(obj => obj._id === value)
   // set the object which is found
   useEffect(() => {
@@ -200,7 +200,7 @@ export default function CheckoutPageComp() {
 
         </div>
         <div className="flex flex-col justify-center items-center mt-5 border w-[600px] py-8 rounded shadow-md">
-          <StripeCheckout qty={quantityValue} deliveryAddress = {selectedAddress}/>
+          <StripeCheckout qty={quantityValue} deliveryAddress={selectedAddress} />
           <div>
             {selectedAddress?.name}
           </div>z

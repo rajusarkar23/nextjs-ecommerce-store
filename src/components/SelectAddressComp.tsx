@@ -20,20 +20,21 @@ export default function SelectAddressComp() {
     const [value, setValue] = useState(new Set([]))
     // set selected address
     const [selectedAddress, setSelectedAddress] = useState<address>()
-    
-    
-   
+
+
+
     // set address on page load
     useEffect(() => {
         setAddress(addresses)
     }, [])
 
     // onchange set the object id
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const handleSelectionChange = (e: any) => {
         setValue(e.target.value)
     }
     // find object by id
-    //@ts-expect-error
+    //@ts-expect-error the address obj can be emplty
     const findById = address.find(obj => obj._id === value)
     // set the object which is found
     useEffect(() => {

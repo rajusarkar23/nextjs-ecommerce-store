@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware"
 
 interface orderDetails {
     orderId: string | undefined
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     placeOrderAndGetIds: (productId: any, deliveryAddress: any, orderedQty: string) => Promise<void>
 }
 

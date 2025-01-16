@@ -7,7 +7,7 @@ localStorage.setItem("name", "John Doe.")
 const name = localStorage.getItem("name")
 
 const Cart = () => {
-  const { fullName, email, isLoggedIn, isLoading, isError } = userDataStore();
+  const { fullName } = userDataStore();
   return (
     <div>
       <div>{name}</div>

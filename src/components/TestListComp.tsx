@@ -40,7 +40,6 @@ export default function TestListComp() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
     setValue,
   } = useForm<inputs>();
 
@@ -55,6 +54,8 @@ export default function TestListComp() {
       });
 
       const response = await res.json();
+      console.log(response);
+      
     } catch (error) {
       console.log(error);
     }

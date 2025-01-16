@@ -8,6 +8,7 @@ interface userData {
     fullName: string,
     userId: string,
     email: string,
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     addresses: any,
     isLoggedIn: boolean,
     isSessionAvailable: boolean,
@@ -78,22 +79,23 @@ const userDataStore = create(persist<userData>((set) => ({
             set({ isLoading: false })
         }
     },
-    getUserAddresses: async() => {
-        set({isLoading: true, isError: false})
+    getUserAddresses: async () => {
+        set({ isLoading: true, isError: false })
 
         try {
-            const res = await fetch("/api/user-address",{
+            const res = await fetch("/api/user-address", {
                 method: "GET"
             })
             const response = await res.json()
 
             if (response.error === false) {
-                set({addresses: response.getAddresses,isLoading: false})
+                set({ addresses: response.getAddresses, isLoading: false })
             } else {
-                set({isLoading: false, isError: true, setErrorMessage: response.message})
+                set({ isLoading: false, isError: true, setErrorMessage: response.message })
             }
         } catch (error) {
-            
+            console.log(error);
+
         }
     }
 }), { name: "user" }))

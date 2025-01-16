@@ -22,11 +22,12 @@ interface data {
 
 interface compProps {
   qty: string
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   deliveryAddress: any
-  
+
 }
 
-const StripeCheckout: React.FC<compProps> = ({qty, deliveryAddress}) => {
+const StripeCheckout: React.FC<compProps> = ({ qty, deliveryAddress }) => {
   const [data, setData] = useState<data>();
   const [loading, setLoading] = useState(false)
   const id = useParams().id;
@@ -44,7 +45,7 @@ const StripeCheckout: React.FC<compProps> = ({qty, deliveryAddress}) => {
       if (response.success === true) {
         setData(response.find);
         setLoading(false)
-      } else{
+      } else {
         setLoading(false)
       }
     } catch (error) {
@@ -55,7 +56,7 @@ const StripeCheckout: React.FC<compProps> = ({qty, deliveryAddress}) => {
     getProductDetails();
   }, []);
 
- 
+
   if (!data || loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -77,7 +78,7 @@ const StripeCheckout: React.FC<compProps> = ({qty, deliveryAddress}) => {
             currency: "inr",
           }}
         >
-          <CheckoutForm amount={priceToNumber} qty={qty} deliveryAddress={deliveryAddress}/>
+          <CheckoutForm amount={priceToNumber} qty={qty} deliveryAddress={deliveryAddress} />
         </Elements>
       </div>
     </main>

@@ -3,7 +3,7 @@ import userDataStore from "@/store/userDataStore";
 import { Form, Input, Button, Spinner } from "@nextui-org/react";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface CustomSVGProps extends React.SVGProps<SVGSVGElement> {
@@ -73,11 +73,9 @@ export const EyeFilledIcon = (props: CustomSVGProps) => {
 
 export default function SigninComp() {
   const [isVisible, setIsVisible] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessageI] = useState("");
   const router = useRouter();
 
-  const { isLoading, isLoggedIn, isSessionAvailable, fullName, isError, getUserFromSignin, email, setErrorMessage } = userDataStore()
+  const { isLoading, isLoggedIn, isSessionAvailable, isError, getUserFromSignin, setErrorMessage } = userDataStore()
 
   const handleSignin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -1,10 +1,9 @@
 import userDataStore from "@/store/userDataStore";
 import { Button, Form, Input } from "@nextui-org/react";
-import { useEffect } from "react";
 
 export default function AddAddressComp() {
 
-    const {getUserAddresses, addresses} = userDataStore()
+    const {getUserAddresses} = userDataStore()
 
     const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

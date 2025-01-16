@@ -1,5 +1,4 @@
 import { Input } from "@nextui-org/react";
-import React, { useState } from "react";
 
 interface inputValues {
   type: string;
@@ -16,11 +15,9 @@ export default function InputComp({
   value = "",
   onChange,
 }: inputValues) {
-  const [fieldValue, setFieldValue] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setFieldValue(value);
     onChange(value);
   };
   return (

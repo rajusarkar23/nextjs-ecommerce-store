@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
 export async function POST(req: Request) {
-  const { productId, paymentId, deliveryAddress, qty } = await req.json();
+  const { productId, deliveryAddress, qty } = await req.json();
 
   await dbConnection()
 

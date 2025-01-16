@@ -4,7 +4,6 @@ import userDataStore from "@/store/userDataStore"
 import { Button } from "@nextui-org/button"
 
 export default function ShowProfileDetails() {
-    3
     const { email, fullName, userId } = userDataStore()
     return (
         <div className="flex justify-center items-center">
