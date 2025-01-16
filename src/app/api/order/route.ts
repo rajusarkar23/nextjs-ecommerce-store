@@ -12,9 +12,9 @@ export async function POST(req: Request) {
   const userId = await checkUserSession();
 
   if (!ObjectId.isValid(userId)) {
-    return NextResponse.json({error: true, message: "Invalid id or session"})
+    return NextResponse.json({ error: true, message: "Invalid id or session" })
   }
-  
+
   if (!userId) {
     return NextResponse.json({
       error: true,
@@ -35,20 +35,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, message: "Order created", createOrder })
   } catch (error) {
     console.log(error);
-    return NextResponse.json({error: true, message: "Something went wrong."})
+    return NextResponse.json({ error: true, message: "Something went wrong." })
   }
 }
 
-export async function PUT(req: Request){
-  const {paymentId} = await req.json()
-  console.log("paymentId", paymentId);
-  
+export async function PUT(req: Request) {
+  const { orderId } = await req.json()
+  console.log("orderId", orderId);
+
 
   await dbConnection()
 
   try {
-    const update = await Order.findByIdAndUpdate
+    const update = await Order.findByIdAndUpdate(orderId, {
+      isPaymentSuccess: true,
+      isOrderPlacedSuccess: true
+    }, { new: true })
+
+    if (!update) {
+      return NextResponse.json({ error: true, message: "Unable to process this order." })
+    }
+    return NextResponse.json({ error: false, message: "Your order has been placed.", update })
   } catch (error) {
-    
+    console.log(error);
+    return NextResponse.json({ error: true, message: "Something went wrong." })
   }
 }
