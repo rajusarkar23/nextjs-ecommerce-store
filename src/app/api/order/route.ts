@@ -10,13 +10,12 @@ export async function POST(req: Request) {
   await dbConnection()
 
   try {
-    const findIfOrderExistWithPaymentId = await Order.findOne({ paymentId: paymentId })
-    if (findIfOrderExistWithPaymentId) {
-      return NextResponse.json({ success: false, message: "Order already exists with this payment id." })
-    }
+    // const findIfOrderExistWithPaymentId = await Order.findOne({ paymentId: paymentId })
+    // if (findIfOrderExistWithPaymentId) {
+    //   return NextResponse.json({ success: false, message: "Order already exists with this payment id." })
+    // }
     const createOrder = await Order.create({
       productId,
-      paymentId,
       orderedBy: "123",
       deliveryAddress: deliveryAddress,
       orderedQty: qty
@@ -25,9 +24,23 @@ export async function POST(req: Request) {
     if (!createOrder) {
       return NextResponse.json({ success: false, message: "Something went wrong." })
     }
-    return NextResponse.json({ success: true, message: "Order created" })
+    return NextResponse.json({ success: true, message: "Order created", createOrder })
   } catch (error) {
     console.log(error);
     return NextResponse.json({error: true, message: "Something went wrong."})
+  }
+}
+
+export async function PUT(req: Request){
+  const {paymentId} = await req.json()
+  console.log("paymentId", paymentId);
+  
+
+  await dbConnection()
+
+  try {
+    const update = await Order.findByIdAndUpdate
+  } catch (error) {
+    
   }
 }

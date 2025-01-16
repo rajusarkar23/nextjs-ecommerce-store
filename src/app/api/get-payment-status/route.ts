@@ -5,11 +5,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
   const { paymentId } = await req.json();
+  console.log(paymentId);
+  
 
   try {
     const getPaymentDetails = await stripe.paymentIntents.retrieve(paymentId);
     
     if (getPaymentDetails.status === "succeeded") {
+      console.log("ok");
+      
       return NextResponse.json({
         success: true,
         message: "Payment succeeded.",

@@ -6,7 +6,8 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import orderDetailsStore from "@/store/orderDetails";
 
 const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: string, deliveryAddress: any, }) => {
   const stripe = useStripe();
@@ -14,12 +15,17 @@ const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: 
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+  const {placeOrderAndGetIds, orderId} = orderDetailsStore()
+  const productId = useParams().id
+
+  console.log(orderId);
+  
+  
 
 
-  const id = useParams().id;
+  
 
   useEffect(() => {
-    // sending a request to the payment intent route
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: {
@@ -27,8 +33,8 @@ const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: 
       },
       body: JSON.stringify({ amount: 100 * amount, qty }),
     })
-      .then((res) => res.json()) // collecting the response
-      .then((data) => setClientSecret(data.clientSecret)); // setting the clientSecret
+      .then((res) => res.json()) 
+      .then((data) => setClientSecret(data.clientSecret));
   }, [amount]);
 
 
@@ -39,35 +45,25 @@ const CheckoutForm = ({ amount, qty, deliveryAddress, }: { amount: number, qty: 
     if (!stripe || !elements) {
       return;
     }
-    // destructure the error from the req and set it to submitError variable
     const { error: submitError } = await elements.submit();
-    // if error
+
     if (submitError) {
       setErrorMessage(submitError.message);
       setLoading(false);
       return;
     }
-    // send api req for order place
-    console.log("qty", qty);
-    
-
-    await fetch("/api/order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({productId: id, deliveryAddress, qty})
-    })
-
+    // send order api call here
+   
+    await placeOrderAndGetIds(productId, deliveryAddress, qty)
 
     // same above destructure example
-    await stripe.confirmPayment({
-      elements,
-      clientSecret,
-      confirmParams: {
-        return_url: `http://www.localhost:3000/checkout/success/${id}`,
-      },
-    });
+    // await stripe.confirmPayment({
+    //   elements,
+    //   clientSecret,
+    //   confirmParams: {
+    //     return_url: `http://www.localhost:3000/checkout/process-order/123`,
+    //   },
+    // });
 
     setLoading(false);
   };
